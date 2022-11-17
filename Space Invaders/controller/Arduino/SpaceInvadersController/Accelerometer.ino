@@ -13,9 +13,9 @@ const int Z_PIN = A2;
  * Set the "zero" states when each axis is neutral
  * NOTE: Customize this for your accelerometer sensor!
  */
-const int X_ZERO = 1850;
-const int Y_ZERO = 1850;
-const int Z_ZERO = 1950;
+const int X_ZERO = 2055;
+const int Y_ZERO = 2055;
+const int Z_ZERO = 2440;
 
 
 /*
