@@ -35,10 +35,10 @@ class PygameController:
       if(message != None):
         command = None
         message = int(message)
-        # if message == 0:
-        #   command = "FLAT"
-        # if message == 1:
-        #   command = "UP"
+        if message == 0:
+          command = "FLAT"
+        if message == 1:
+          command = "UP"
         if message == 2:
           command = "FIRE"
         elif message == 3:
@@ -51,7 +51,7 @@ class PygameController:
 
 
 if __name__== "__main__":
-  serial_name = "/dev/cu.BTDemo-ESP32SPP"
+  serial_name = "COM7"
   baud_rate = 115200
   controller = PygameController(serial_name, baud_rate)
 

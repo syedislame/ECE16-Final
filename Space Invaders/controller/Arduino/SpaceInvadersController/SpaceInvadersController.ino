@@ -41,4 +41,6 @@ void loop() {
   if(sending && sampleSensors()) {
     sendMessage(String(getOrientation()));
   }
+
+  Serial.println(getOrientation());
 }
