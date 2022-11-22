@@ -373,6 +373,7 @@ class SpaceInvaders(object):
         self.life2 = Life(742, 3)
         self.life3 = Life(769, 3)
         self.livesGroup = sprite.Group(self.life1, self.life2, self.life3)
+        
 
     def reset(self, score):
         self.player = Ship()
@@ -463,6 +464,10 @@ class SpaceInvaders(object):
                             self.allSprites.add(self.bullets)
                             self.sounds['shoot2'].play()
 
+                        #display.update()
+                        #self.clock.tick(5)
+                        
+
     ''' ============================================================ '''
     def check_input_udp_socket(self):
         try:
@@ -494,12 +499,28 @@ class SpaceInvaders(object):
                         self.sounds['shoot2'].play()
             else:
                 self.player.update_udp_socket(msg)
+
+            if self.life3.alive() is True:
+                lives = "Lives: 3"
+            elif self.life2.alive():
+                lives = "Lives: 2"
+            elif self.life1.alive():
+                lives = "Lives: 1"
+            elif self.gameOver is not False:
+                lives = "game over"    
+            else:
+                lives = "Lives: 0"
+            data = "Score: " + str(self.score) + "," + lives
+            mySocket.sendto(data.encode("utf-8"), _)
+            #mySocket.sendto(lives.encode("utf-8"), _)
         except BlockingIOError:
             pass # do nothing if there's no data
     ''' ============================================================ '''
 
     def make_enemies(self):
+        
         enemies = EnemiesGroup(10, 5)
+        
         for row in range(5):
             for column in range(10):
                 enemy = Enemy(row, column)
@@ -618,8 +639,10 @@ class SpaceInvaders(object):
         for e in event.get():
             if self.should_exit(e):
                 sys.exit()
+    
 
     def main(self):
+
         while True:
             if self.mainScreen:
                 self.screen.blit(self.background, (0, 0))
@@ -643,8 +666,11 @@ class SpaceInvaders(object):
                         self.reset(0)
                         self.startGame = True
                         self.mainScreen = False
-
-            elif self.startGame:
+                    
+            
+        
+            if self.startGame:
+                
                 if not self.enemies and not self.explosionsGroup:
                     currentTime = time.get_ticks()
                     if currentTime - self.gameTimer < 3000:
@@ -660,13 +686,18 @@ class SpaceInvaders(object):
                         ''' ============================================================ '''
                         self.check_input_udp_socket()
                         ''' ============================================================ '''
-                    if currentTime - self.gameTimer > 3000:
+                   
+                    elif currentTime - self.gameTimer > 3000:
                         # Move enemies closer to bottom
                         self.enemyPosition += ENEMY_MOVE_DOWN
                         self.reset(self.score)
                         self.gameTimer += 3000
+               
                 else:
+                   
                     currentTime = time.get_ticks()
+
+                   
                     self.play_main_music(currentTime)
                     self.screen.blit(self.background, (0, 0))
                     self.allBlockers.update(self.screen)
@@ -685,15 +716,19 @@ class SpaceInvaders(object):
                     self.check_collisions()
                     self.create_new_ship(self.makeNewShip, currentTime)
                     self.make_enemies_shoot()
-
+            
+            
             elif self.gameOver:
                 currentTime = time.get_ticks()
                 # Reset enemy starting position
+                self.check_input_udp_socket()
                 self.enemyPosition = ENEMY_DEFAULT_POSITION
                 self.create_game_over(currentTime)
 
             display.update()
             self.clock.tick(60)
+            
+            
 
 
 if __name__ == '__main__':

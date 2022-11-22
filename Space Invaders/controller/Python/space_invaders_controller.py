@@ -35,23 +35,30 @@ class PygameController:
       if(message != None):
         command = None
         message = int(message)
-        if message == 0:
-          command = "FLAT"
-        if message == 1:
-          command = "UP"
+        # if message == 0:
+        #   command = "FLAT"
+        # if message == 1:
+        #   command = "UP"
         if message == 2:
           command = "FIRE"
-        elif message == 3:
-          command = "LEFT"
+        #elif message == 3:
+          #command = "LEFT"
         elif message == 4:
           command = "RIGHT"
 
         if command is not None:
           mySocket.send(command.encode("UTF-8"))
+        try:
+          data = mySocket.recv(1024)
+          data = data.decode("utf-8")
+          print("Response: " + data)
+          self.comms.send_message(str(data))
+        except BlockingIOError:
+          pass # do nothing if there's no data
 
 
 if __name__== "__main__":
-  serial_name = "COM7"
+  serial_name = "COM6"
   baud_rate = 115200
   controller = PygameController(serial_name, baud_rate)
 

@@ -25,7 +25,7 @@
  */
 void setupCommunication() {
   #if USE_BT
-    Ser.begin("BTDemo"); // any unique name for BT identification
+    Ser.begin("Syed12"); // any unique name for BT identification
   #else
     Ser.begin(115200);
   #endif
