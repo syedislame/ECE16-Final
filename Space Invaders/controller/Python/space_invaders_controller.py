@@ -76,7 +76,7 @@ class PygameController:
               cooldown -= 0.0005 # decrement cooldown to increase sensitivity linearly with time
             elif (y > 200 and cooldown < 0.05):  # if front of board is tilted down, decrease sensitivity
               command = "DOWN"
-              cooldown += 0.001 # increment cooldown to decrease sensitivity linearly with time
+              cooldown += 0.0005 # increment cooldown to decrease sensitivity linearly with time
           elif (abs(z) > abs(x) and abs(z) >= abs(y)):  # if flat, then do nothing
             command = "FLAT"
 
