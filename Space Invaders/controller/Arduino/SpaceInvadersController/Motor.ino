@@ -1,7 +1,7 @@
 const int pwmFrequency = 5000;  // Set the PWM frequency to 5KHz
 const int pwmChannel = 0;       // Use PWM channel 0
 const int pwmBitResolution = 8;
-const int MOTOR_PIN = 15;
+const int MOTOR_PIN = 18;
 
 void setupMotor(){
     ledcSetup (pwmChannel, pwmFrequency, pwmBitResolution);
